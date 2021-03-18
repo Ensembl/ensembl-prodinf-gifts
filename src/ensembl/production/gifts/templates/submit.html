@@ -1,10 +1,12 @@
 
-{% extends 'ensembl/submit.html' %}
+{% extends 'base.html' %}
 
-{% set title = 'GIFTs Submission' %}
+{% set title = 'GIFTs: Submit Job' %}
 {% set icon_image = 'img/gifts.png' %}
 
-{% block submit -%}
+{% block content %}
+  <div class="container">
+    {% block submit -%}
 
     <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
       {{ form.csrf }}
@@ -48,7 +50,6 @@
               <div class="col-sm-12 offset-3">
                 {{ form.update_ensembl( class='btn bg-green' ) }}
                 {{ form.process_mapping( class='btn bg-green' ) }}
-                <!-- {{ form.publish_mapping( class='btn bg-green' ) }} -->
               </div>
             </div>
 
@@ -57,4 +58,6 @@
       </fieldset>
     </form>
 
-{%- endblock submit %}
+    {%- endblock submit %}
+  </div>
+{% endblock content %}
