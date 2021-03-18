@@ -1,14 +1,14 @@
-#openapi: "3.0.2"
-
 info:
   title: "GIFTs"
   version: "1.0"
 
-tags:
-  - name: Update, process, and publish GIFTs data
+produces: [
+  "application/json",
+  "text/html"
+]
 
 paths:
-  /gifts/update_ensembl:
+  /gifts/update_ensembl/:
     post:
       tags:
         - Update Ensembl data in the GIFTs database
@@ -47,7 +47,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/job"
 
-  /gifts/process_mapping:
+  /gifts/process_mapping/:
     post:
       tags:
         - Update Ensembl and UniProt alignments in the GIFTs database
@@ -81,45 +81,6 @@ paths:
       responses:
         200:
           description: Details of the specified 'Process Mapping' job.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/job"
-
-  /gifts/publish_mapping:
-    post:
-      tags:
-        - Publish GIFTs database with latest Ensembl/UniProt alignments
-      summary: "Publish latest GIFTs data"
-      responses:
-        200:
-          description: ID of submission job in hive database.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/result"
-    get:
-      tags:
-        - Publish GIFTs database with latest Ensembl/UniProt alignments
-      summary: "Retrieve information for all publications of GIFTs data"
-      responses:
-        200:
-          description: Details of 'Publish Mapping' jobs.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/jobs"
-
-  /gifts/publish_mapping/{job_id}:
-    get:
-      tags:
-        - Publish GIFTs database with latest Ensembl/UniProt alignments
-      summary: "Retrieve information for a specific publication of GIFTs data"
-      parameters:
-        - $ref: "#/components/parameters/job_id"
-      responses:
-        200:
-          description: Details of the specified 'Publish Mapping' job.
           content:
             application/json:
               schema:
