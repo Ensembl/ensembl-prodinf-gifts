@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% set title = 'GIFTs: ' + submission_type + ' results' %}
+{% set icon_image = 'img/gifts.png' %}
+
+{% block content %}
+  <div class="container">
+    {% block list -%}
+
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th class="bg-green">Job ID</th>
+          <th class="bg-green">Ensembl Release</th>
+          <th class="bg-green">Submitted</th>
+          <th class="bg-green">Tag</th>
+          <th class="bg-green">Status</th>
+          <th class="bg-green">Completed</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for job in jobs | sort(attribute='id', reverse = True) %}
+        <tr>
+          <td>{{ job.id }}</td>
+          <td>{{ job.input.ensembl_release }}</td>
+          <td>{{ job.input.timestamp }}</td>
+          <td>{{ job.input.tag }}</td>
+          <td>{{ job.status | capitalize }}</td>
+          <td>{% if job.output %} {{ job.output.timestamp }} {% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    {%- endblock list %}
+  </div>
+{% endblock content %}

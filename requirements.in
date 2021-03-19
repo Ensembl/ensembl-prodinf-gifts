@@ -1,0 +1,12 @@
+Click
+Bootstrap-Flask
+elasticsearch>=6.8.1,<7.0.0
+email_validator
+Flask
+flasgger
+Flask-Cors
+gunicorn
+mysqlclient
+requests
+SQLAlchemy
+wtforms
