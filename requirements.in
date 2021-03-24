@@ -1,6 +1,5 @@
-Click
 Bootstrap-Flask
-elasticsearch>=6.8.1,<7.0.0
+Click
 email_validator
 Flask
 flasgger
