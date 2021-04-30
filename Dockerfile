@@ -16,6 +16,9 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app/
 
+RUN python -m venv /usr/src/app/venv
+ENV PATH="/usr/src/app/venv/bin:$PATH"
+
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir .
 
