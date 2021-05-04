@@ -1,3 +1,7 @@
 include LICENSE
 include NOTICE
 include VERSION
+include src/ensembl/production/gifts/templates/*
+include src/ensembl/production/gifts/static/*
+include src/ensembl/production/gifts/static/img/*
+include src/ensembl/production/gifts/app/swagger.yml
