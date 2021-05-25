@@ -8,7 +8,7 @@ produces: [
 ]
 
 paths:
-  /gifts/update_ensembl/:
+  /update_ensembl/:
     post:
       tags:
         - Update Ensembl data in the GIFTs database
@@ -32,7 +32,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/jobs"
 
-  /gifts/update_ensembl/{job_id}:
+  /update_ensembl/{job_id}:
     get:
       tags:
         - Update Ensembl data in the GIFTs database
@@ -47,7 +47,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/job"
 
-  /gifts/process_mapping/:
+  /process_mapping/:
     post:
       tags:
         - Update Ensembl and UniProt alignments in the GIFTs database
@@ -71,7 +71,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/jobs"
 
-  /gifts/process_mapping/{job_id}:
+  /process_mapping/{job_id}:
     get:
       tags:
         - Update Ensembl and UniProt alignments in the GIFTs database

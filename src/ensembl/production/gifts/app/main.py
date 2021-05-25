@@ -90,18 +90,18 @@ def submit_job(payload, analysis, action):
         return redirect(url_for(action + '_result', job_id=str(job.job_id)))
 
 
-@app.route('/gifts/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
 
-@app.route('/gifts/update_ensembl/', methods=['POST'])
+@app.route('/update_ensembl', methods=['POST'])
 def update_ensembl(payload=None):
     analysis = app.config['HIVE_UPDATE_ENSEMBL_ANALYSIS']
     return submit_job(payload, analysis, 'update_ensembl')
 
 
-@app.route('/gifts/update_ensembl/', methods=['GET'])
+@app.route('/update_ensembl', methods=['GET'])
 def update_ensembl_list():
     analysis = app.config['HIVE_UPDATE_ENSEMBL_ANALYSIS']
     jobs = get_hive('update_ensembl').get_all_results(analysis)
@@ -112,7 +112,7 @@ def update_ensembl_list():
         return render_template('list.html', submission_type='Update Ensembl', jobs=jobs)
 
 
-@app.route('/gifts/update_ensembl/<int:job_id>', methods=['GET'])
+@app.route('/update_ensembl/<int:job_id>', methods=['GET'])
 def update_ensembl_result(job_id):
     job = get_hive('update_ensembl').get_result_for_job_id(job_id, progress=False)
 
@@ -122,13 +122,13 @@ def update_ensembl_result(job_id):
         return render_template('list.html', submission_type='Update Ensembl', jobs=[job])
 
 
-@app.route('/gifts/process_mapping/', methods=['POST'])
+@app.route('/process_mapping', methods=['POST'])
 def process_mapping(payload=None):
     analysis = app.config['HIVE_PROCESS_MAPPING_ANALYSIS']
     return submit_job(payload, analysis, 'process_mapping')
 
 
-@app.route('/gifts/process_mapping/', methods=['GET'])
+@app.route('/process_mapping', methods=['GET'])
 def process_mapping_list():
     analysis = app.config['HIVE_PROCESS_MAPPING_ANALYSIS']
     jobs = get_hive('process_mapping').get_all_results(analysis)
@@ -139,7 +139,7 @@ def process_mapping_list():
         return render_template('list.html', submission_type='Process Mapping', jobs=jobs)
 
 
-@app.route('/gifts/process_mapping/<int:job_id>', methods=['GET'])
+@app.route('/process_mapping/<int:job_id>', methods=['GET'])
 def process_mapping_result(job_id):
     job = get_hive('process_mapping').get_result_for_job_id(job_id, progress=False)
 
@@ -149,7 +149,7 @@ def process_mapping_result(job_id):
         return render_template('list.html', submission_type='Process Mapping', jobs=[job])
 
 
-@app.route('/gifts/submit/', methods=['GET'])
+@app.route('/submit', methods=['GET'])
 def display_form(status=None):
     form = GIFTsSubmissionForm(request.form)
 
@@ -160,7 +160,7 @@ def display_form(status=None):
     )
 
 
-@app.route('/gifts/submit/', methods=['POST'])
+@app.route('/submit', methods=['POST'])
 def submit_form():
     # Convert the form fields into a 'payload' dictionary
     # that is the required input format for the hive submission.
@@ -182,6 +182,6 @@ def submit_form():
         raise RuntimeError('Unrecognised submission type')
 
 
-@app.route('/gifts/ping/', methods=['GET'])
+@app.route('/ping', methods=['GET'])
 def ping():
     return jsonify({'status': 'ok'})
