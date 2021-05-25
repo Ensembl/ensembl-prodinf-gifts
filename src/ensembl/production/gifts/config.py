@@ -24,6 +24,6 @@ class GIFTsConfig:
       'ui_params': {
         'defaultModelsExpandDepth': -1
       },
-      'favicon': '/img/gifts.png',
-      'specs_route': '/gifts/api'
+      'favicon': '/static/gifts/img/gifts.png',
+      'specs_route': '/api'
     }
