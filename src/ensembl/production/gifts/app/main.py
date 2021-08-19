@@ -92,7 +92,7 @@ def submit_job(payload, analysis, action):
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('submit.html')
 
 
 @app.route('/update_ensembl', methods=['POST'])
