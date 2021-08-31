@@ -1,38 +1,67 @@
 
 {% extends 'base.html' %}
 
-{% set title = 'GIFTs: ' + submission_type + ' results' %}
+{% set title = 'GIFTs: ' + submission_type + ' jobs' %}
 {% set icon_image = 'img/gifts.png' %}
 
+{% block styles %}
+{{ super() }}
+<link type="text/css"  rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-table.min.css') }}"/>
+{% endblock %}
+
 {% block content %}
-  <div class="container">
-    {% block list -%}
-
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th class="bg-green">Job ID</th>
-          <th class="bg-green">Ensembl Release</th>
-          <th class="bg-green">Submitted</th>
-          <th class="bg-green">Tag</th>
-          <th class="bg-green">Status</th>
-          <th class="bg-green">Completed</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for job in jobs | sort(attribute='id', reverse = True) %}
-        <tr>
-          <td>{{ job.id }}</td>
-          <td>{{ job.input.ensembl_release }}</td>
-          <td>{{ job.input.timestamp }}</td>
-          <td>{{ job.input.tag }}</td>
-          <td>{{ job.status | capitalize }}</td>
-          <td>{% if job.output %} {{ job.output.timestamp }} {% endif %}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-
-    {%- endblock list %}
+  <div class="m-4" >
+  <div class="row table-responsive">
+  <div class="col-12">
+  <table id="table"
+    class="table table-striped thead-dark table-bordered "
+    data-toggle="table"
+    data-row-style="rowStyle"
+    data-search="false"
+    data-show-refresh="false"
+    data-show-columns="false"
+    data-sortable="true"
+    data-sort-class="table-active"
+    data-pagination="false"
+    data-show-button-text="true"
+    data-page-size="25"
+    data-detail-view="false"
+    data-detail-view-by-click="false"
+    data-detail-view-icon="true"
+    data-detail-formatter="detailFormatter"
+    data-buttons-class="btn h-buttons">
+    <thead class="h-buttons">
+      <tr style="cursor: pointer">
+        <th data-field="id" data-sortable="true">Job ID</th>
+        <th data-field="input.ensembl_release" data-sortable="true">Ensembl Release</th>
+        <th data-field="input.timestamp" data-sortable="false">Submitted</th>
+        <th data-field="input.email" data-sortable="false">Email</th>
+        <th data-field="input.tag" data-sortable="false">Tag</th>
+        <th data-field="status" data-sortable="false" data-formatter="statusFormat">Status</th>
+        <th data-field="output" data-sortable="false">Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for job in jobs | sort(attribute='id', reverse = True) %}
+      <tr>
+        <td>{{ job.id }}</td>
+        <td>{{ job.input.ensembl_release }}</td>
+        <td>{{ job.input.timestamp }}</td>
+        <td>{{ job.input.email }}</td>
+        <td>{{ job.input.tag }}</td>
+        <td>{{ job.status | capitalize }}</td>
+        <td>{% if job.output %} {{ job.output.timestamp }} {% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  </div>
   </div>
 {% endblock content %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/bootstrap-table.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/gifts.js') }}"></script>
+{% endblock scripts %}

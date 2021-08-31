@@ -1,46 +1,59 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
 {% block doc -%}
 
 <!DOCTYPE html>
 <html {% block html_attribs %}{% endblock html_attribs %}>
 
 {%- block html %}
+{% set icon_image = 'img/gifts.png' %}
+{% set title = 'GIFTs Service' %}
+
   <head>
-    {%- block head %}
+  {%- block head %}
     <title>{{title}}</title>
 
-      {%- block metas %}
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      {%- endblock metas %}
+    {%- block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%- endblock metas %}
 
-      {%- block styles %}
-      <!-- Bootstrap -->
-      {{ bootstrap.load_css(version='4.3.0') }}
-      <link rel="stylesheet" href="{{ url_for('static', filename='ensembl.css') }}">
-      <link rel="shortcut icon" href="{{ url_for('static', filename=icon_image) }}">
-      {%- endblock styles %}
-    {%- endblock head %}
+    {%- block styles %}
+    {{ bootstrap.load_css(version='4.3.0') }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gifts.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename=icon_image) }}">
+    {%- endblock styles %}
+  {%- endblock head %}
   </head>
 
   <body {% block body_attribs %}{% endblock body_attribs %}>
-    {% block body -%}
-      {% block heading %}
-      <a id="top"></a>
+  {% block body -%}
 
-      <div class="container">
-        <h2><img src="{{ url_for('static', filename=icon_image) }}" /> {{title}}</h2>
+    {% block navbar %}
+    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark hnav" >
+      <a class="navbar-brand" href="#">
+        <span class="mb-0 h3">
+          <img src="{{ url_for('static', filename=icon_image) }}" alt="Gift" /> GIFTs
+        </span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto">
+          {{ render_nav_item('display_form', 'Submit') }}
+          {{ render_nav_item('update_ensembl_list', 'List Jobs: Update Ensembl') }}
+          {{ render_nav_item('process_mapping_list', 'List Jobs: Process Mapping') }}
+        </div>
       </div>
-      {%- endblock heading %}
+    </nav>
+    {%- endblock navbar %}
 
-      {% block navbar %}
-      {%- endblock navbar %}
+    {% block content -%}
+    {%- endblock content %}
 
-      {% block content -%}
-      {%- endblock content %}
-
-      {% block scripts %}
-        {{ bootstrap.load_js(version='4.3.0') }}
-      {%- endblock scripts %}
-    {%- endblock body %}
+    {% block scripts %}
+      {{ bootstrap.load_js(version='4.3.0') }}
+    {%- endblock scripts %}
+  {%- endblock body %}
   </body>
 
 {%- endblock html %}
