@@ -34,6 +34,9 @@
           <img src="{{ url_for('static', filename=icon_image) }}" alt="Gift" /> GIFTs
         </span>
       </a>
+      <ul class="nav navbar-nav navbar-right navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
+        <li><a class="nav-item nav-link active"> v{{config['APP_VERSION']}}</a></li>
+      </ul>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -43,6 +46,9 @@
           {{ render_nav_item('update_ensembl_list', 'List Jobs: Update Ensembl') }}
           {{ render_nav_item('process_mapping_list', 'List Jobs: Process Mapping') }}
         </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a class="nav-item nav-link active navbar-brand"> v{{config['APP_VERSION']}}</a></li>
+        </ul>
       </div>
     </nav>
     {%- endblock navbar %}

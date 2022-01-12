@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 from ensembl.production.core.config import load_config_yaml
 
 
@@ -17,6 +18,9 @@ class GIFTsConfig:
                                               file_config.get('hive_process_mapping_uri', None))
     GIFTS_API_URIS_FILE = os.environ.get("GIFTS_APIS_URIS_FILE",
                                          file_config.get('gifts_api_uris_file', 'gifts_api_uris.json'))
+    
+    APP_VERSION = version = pkg_resources.require("gifts")[0].version
+    
     SWAGGER = {
       'title': 'Ensembl Production: GIFTs Pipeline API',
       'uiversion': 3,
