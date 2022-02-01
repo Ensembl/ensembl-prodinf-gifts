@@ -1,12 +1,20 @@
 import os
 import pkg_resources
+from pathlib import Path
 from ensembl.production.core.config import load_config_yaml
 
 
 config_file_path = os.environ.get('GIFTS_CONFIG_PATH')
 file_config = load_config_yaml(config_file_path)
 
-
+def get_app_version():
+    try:
+        version = pkg_resources.require("gifts")[0].version
+    except Exception as e:
+        with open(Path(__file__).parents[4] / 'VERSION') as f:
+            version = f.read()
+    return version
+  
 class GIFTsConfig:
     HIVE_UPDATE_ENSEMBL_ANALYSIS = os.environ.get("HIVE_UPDATE_ENSEMBL_ANALYSIS",
                                                   file_config.get('hive_update_ensembl_analysis', 'submit'))
@@ -19,7 +27,7 @@ class GIFTsConfig:
     GIFTS_API_URIS_FILE = os.environ.get("GIFTS_APIS_URIS_FILE",
                                          file_config.get('gifts_api_uris_file', 'gifts_api_uris.json'))
     
-    APP_VERSION = version = pkg_resources.require("gifts")[0].version
+    APP_VERSION = get_app_version()
     
     SWAGGER = {
       'title': 'Ensembl Production: GIFTs Pipeline API',
