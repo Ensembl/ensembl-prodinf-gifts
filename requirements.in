@@ -1,4 +1,4 @@
-ensembl_prodinf_core@git+git://github.com/Ensembl/ensembl-prodinf-core.git#egg=ensembl-prodinf-core
+ensembl_prodinf_core~=2.0.0
 Bootstrap-Flask
 Click
 email_validator
