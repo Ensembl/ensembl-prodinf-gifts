@@ -28,7 +28,7 @@ class GIFTsConfig:
                                          file_config.get('gifts_api_uris_file', 'gifts_api_uris.json'))
     
     APP_VERSION = get_app_version()
-    
+    SCRIPT_NAME = os.environ.get('SCRIPT_NAME', '')
     SWAGGER = {
       'title': 'Ensembl Production: GIFTs Pipeline API',
       'uiversion': 3,

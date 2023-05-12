@@ -4,6 +4,8 @@ from flask import Flask, json, jsonify, redirect, render_template, request, url_
 from flask_bootstrap import Bootstrap4
 from flask_cors import CORS
 from flasgger import Swagger
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.wrappers import Response
 
 from ensembl.production.gifts.config import GIFTsConfig
 from ensembl.production.gifts.forms import GIFTsSubmissionForm
@@ -13,7 +15,7 @@ app_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 static_path = os.path.join(app_path, 'static')
 template_path = os.path.join(app_path, 'templates')
 
-app = Flask(__name__, static_url_path='/gifts/static', static_folder=static_path, template_folder=template_path)
+app = Flask(__name__, static_url_path='/static', static_folder=static_path, template_folder=template_path)
 
 app.config.from_object(GIFTsConfig)
 
@@ -23,6 +25,12 @@ CORS(app)
 
 Swagger(app, template_file='swagger.yml')
 
+if app.env == 'development':
+    # ENV dev (assumed run from builtin server, so update script_name at wsgi level)
+    app.wsgi_app = DispatcherMiddleware(
+        Response('Not Found', status=404),
+        {GIFTsConfig.SCRIPT_NAME: app.wsgi_app}
+    )
 
 def get_gifts_api_uri(environment):
     with open(app.config["GIFTS_API_URIS_FILE"], 'r') as f:
