@@ -1,7 +1,7 @@
 import os
 import requests
 from flask import Flask, json, jsonify, redirect, render_template, request, url_for
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
 from flask_cors import CORS
 from flasgger import Swagger
 
@@ -13,11 +13,11 @@ app_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 static_path = os.path.join(app_path, 'static')
 template_path = os.path.join(app_path, 'templates')
 
-app = Flask(__name__, static_url_path='/static/gifts/', static_folder=static_path, template_folder=template_path)
+app = Flask(__name__, static_url_path='/gifts/static', static_folder=static_path, template_folder=template_path)
 
 app.config.from_object(GIFTsConfig)
 
-Bootstrap(app)
+Bootstrap4(app)
 
 CORS(app)
 
