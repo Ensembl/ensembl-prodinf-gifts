@@ -18,8 +18,8 @@ COPY . /usr/src/app/
 
 RUN python -m venv /usr/src/app/venv
 ENV PATH="/usr/src/app/venv/bin:$PATH"
-
+ENV PYTHONPATH=$PYTHONPATH:/usr/src/app/src/
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir .
+# RUN pip install --no-cache-dir .
 
 CMD  ["gunicorn", "--config", "/usr/src/app/gunicorn_config.py", "ensembl.production.gifts.app.main:app"]
