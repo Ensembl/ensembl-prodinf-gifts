@@ -41,6 +41,7 @@ setup(
     maintainer='Ensembl Production Team',
     maintainer_email='ensembl-production@ebi.ac.uk',
     python_requires='>=3.8',
+    install_requires=import_requirements(),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
