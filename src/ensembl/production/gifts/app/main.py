@@ -1,6 +1,19 @@
+#!/usr/bin/env python
+# .. See the NOTICE file distributed with this work for additional information
+#    regarding copyright ownership.
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#        http://www.apache.org/licenses/LICENSE-2.0
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
 import os
 import requests
 from flask import Flask, json, jsonify, redirect, render_template, request, url_for
+from json.decoder import JSONDecodeError
 from flask_bootstrap import Bootstrap4
 from flask_cors import CORS
 from flasgger import Swagger
@@ -51,10 +64,13 @@ def get_status(rest_server):
 
     try:
         status_response = requests.get(status_uri)
-    except requests.ConnectionError:
-        return 'Unable to retrieve status from GIFTs service'
+    except requests.ConnectionError as e:
+        return f'Unable to retrieve status from GIFTs service {e}'
+    try:
+        pipeline_status = json.loads(status_response.text)
+    except JSONDecodeError as e:
+        return f'Error loading GIFTs service information {e}'
 
-    pipeline_status = json.loads(status_response.text)
     for status, running in pipeline_status.items():
         if running:
             return status.replace('_', ' ').capitalize()
