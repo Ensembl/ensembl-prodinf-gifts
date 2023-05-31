@@ -19,6 +19,7 @@ COPY . /usr/src/app/
 RUN python -m venv /usr/src/app/venv
 ENV PATH="/usr/src/app/venv/bin:$PATH"
 ENV PYTHONPATH=$PYTHONPATH:/usr/src/app/src/
+RUN pip install --upgrade pip
 # RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir .
 
