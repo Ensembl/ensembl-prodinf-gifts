@@ -10,14 +10,13 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from wtforms import Form, SelectField, StringField, SubmitField, TextAreaField
+from wtforms import Form, StringField, SubmitField, TextAreaField
 from wtforms.validators import Email, InputRequired
 
 
 class GIFTsSubmissionForm(Form):
     ensembl_release = StringField('Ensembl Release', validators=[InputRequired()])
-    environment = SelectField('Environment', choices=[('dev', 'Dev'), ('staging', 'Staging')],
-                              validators=[InputRequired()])
+    environment = StringField("Environment", default="staging", render_kw={'readonly': True})
     email = StringField('Email', validators=[Email(), InputRequired()])
     auth_token = TextAreaField('Authentication Token', validators=[InputRequired()])
     tag = StringField('Tag')

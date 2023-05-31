@@ -11,7 +11,8 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import os
-import requests
+import requests, logging
+import sqlalchemy.exc
 from flask import Flask, json, jsonify, redirect, render_template, request, url_for
 from json.decoder import JSONDecodeError
 from flask_bootstrap import Bootstrap4
@@ -20,6 +21,7 @@ from flasgger import Swagger
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.wrappers import Response
 
+from ensembl.production.core import app_logging
 from ensembl.production.gifts.config import GIFTsConfig
 from ensembl.production.gifts.forms import GIFTsSubmissionForm
 from ensembl.production.core.models.hive import HiveInstance
@@ -31,7 +33,10 @@ template_path = os.path.join(app_path, 'templates')
 app = Flask(__name__, static_url_path='/static', static_folder=static_path, template_folder=template_path)
 
 app.config.from_object(GIFTsConfig)
-
+formatter = logging.Formatter("[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s")
+handler = app_logging.default_handler()
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
 Bootstrap4(app)
 
 CORS(app)
@@ -65,10 +70,12 @@ def get_status(rest_server):
     try:
         status_response = requests.get(status_uri)
     except requests.ConnectionError as e:
+        app.logger.error(f'Unable to retrieve status from GIFTs service {e}: {status_uri}')
         return f'Unable to retrieve status from GIFTs service {e}'
     try:
         pipeline_status = json.loads(status_response.text)
     except JSONDecodeError as e:
+        app.logger.error(f'Error loading GIFTs service information {e}: {status_response.text}')
         return f'Error loading GIFTs service information {e}'
 
     for status, running in pipeline_status.items():
@@ -126,7 +133,10 @@ def index():
 @app.route('/update_ensembl', methods=['POST'])
 def update_ensembl(payload=None):
     analysis = app.config['HIVE_UPDATE_ENSEMBL_ANALYSIS']
-    return submit_job(payload, analysis, 'update_ensembl')
+    try:
+        return submit_job(payload, analysis, 'update_ensembl')
+    except sqlalchemy.exc.DatabaseError as e :
+        return display_form(status=f'Unable to submit job: {e}')
 
 
 @app.route('/update_ensembl', methods=['GET'])
@@ -153,7 +163,11 @@ def update_ensembl_result(job_id):
 @app.route('/process_mapping', methods=['POST'])
 def process_mapping(payload=None):
     analysis = app.config['HIVE_PROCESS_MAPPING_ANALYSIS']
-    return submit_job(payload, analysis, 'process_mapping')
+    try:
+        return submit_job(payload, analysis, 'process_mapping')
+    except sqlalchemy.exc.DatabaseError as e :
+        return display_form(status=f'Unable to submit job: {e}')
+
 
 
 @app.route('/process_mapping', methods=['GET'])
