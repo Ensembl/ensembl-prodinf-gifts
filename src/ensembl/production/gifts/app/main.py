@@ -65,11 +65,11 @@ def get_gifts_api_uri(environment):
 
 
 def get_status(rest_server):
-    status_uri = rest_server + '/service/status'
+    status_uri = f'{rest_server}/service/status'
 
     try:
         status_response = requests.get(status_uri)
-    except requests.ConnectionError as e:
+    except requests.RequestException as e:
         app.logger.error(f'Unable to retrieve status from GIFTs service {e}: {status_uri}')
         return f'Unable to retrieve status from GIFTs service {e}'
     try:
