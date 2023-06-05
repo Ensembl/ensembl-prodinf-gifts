@@ -7,3 +7,4 @@ include src/ensembl/production/gifts/static/css/*
 include src/ensembl/production/gifts/static/img/*
 include src/ensembl/production/gifts/static/js/*
 include src/ensembl/production/gifts/app/swagger.yml
+include requirements.txt
