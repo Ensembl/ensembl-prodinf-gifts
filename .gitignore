@@ -109,3 +109,4 @@ ENV/
 
 # ensembl-prodinf
 gifts_api_uris.json
+/gifts_api_urls.json

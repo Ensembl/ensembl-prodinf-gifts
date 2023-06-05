@@ -10,6 +10,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+import os
 from pathlib import Path
 
 from setuptools import setup, find_namespace_packages, find_packages
@@ -28,7 +29,7 @@ def import_requirements():
 
 setup(
     name='gifts',
-    version=version,
+    version=os.getenv('CI_COMMIT_TAG', version),
     description='Ensembl GIFTs service',
     long_description=readme,
     namespace_packages=['ensembl'],
@@ -40,6 +41,7 @@ setup(
     maintainer='Ensembl Production Team',
     maintainer_email='ensembl-production@ebi.ac.uk',
     python_requires='>=3.8',
+    install_requires=import_requirements(),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

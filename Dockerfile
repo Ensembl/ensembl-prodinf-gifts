@@ -1,4 +1,4 @@
-FROM python:3.8.9-slim
+FROM python:3.9-slim
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -18,8 +18,9 @@ COPY . /usr/src/app/
 
 RUN python -m venv /usr/src/app/venv
 ENV PATH="/usr/src/app/venv/bin:$PATH"
-
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PYTHONPATH=$PYTHONPATH:/usr/src/app/src/
+RUN pip install --upgrade pip
+# RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir .
 
-CMD  ["gunicorn", "--config", "/usr/src/app/gunicorn_config.py", "-b", "0.0.0.0:5000", "ensembl.production.gifts.app.main:app"]
+CMD  ["gunicorn", "--config", "/usr/src/app/gunicorn_config.py", "ensembl.production.gifts.app.main:app"]
